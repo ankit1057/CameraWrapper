@@ -1,15 +1,25 @@
 package io.anishbajpai.simplecamera
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.FileProvider
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.ImageView
 import com.dhwaniris.comera.CameraActivity
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+
 
 private const val REQUEST_IMAGE_CAPTURE = 92
+private const val REQUEST_STORAGE_PERMISSION = 51
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,9 +30,22 @@ class MainActivity : AppCompatActivity() {
     setContentView(R.layout.activity_main)
 
     findViewById<Button>(R.id.b_start_camera).setOnClickListener {
-      val camera = Intent(this, CameraActivity::class.java)
-      startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
+      val imageFile = createImageFile()
+      if (imageFile != null) {
+        val camera = Intent(this, CameraActivity::class.java)
+        val photoURI = FileProvider.getUriForFile(this,
+            "io.anishbajpai.simplecamera.fileprovider",
+            imageFile)
+        camera.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+        startActivityForResult(camera, REQUEST_IMAGE_CAPTURE)
+      }
     }
+
+    ActivityCompat.requestPermissions(
+        this,
+        arrayOf(Manifest.permission.CAMERA),
+        REQUEST_STORAGE_PERMISSION
+    )
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -31,5 +54,19 @@ class MainActivity : AppCompatActivity() {
       val imageBitmap = extras?.get("data") as Bitmap
       imageView.setImageBitmap(imageBitmap)
     }
+  }
+
+
+  private fun createImageFile(): File? {
+    // Create an image file name
+    val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+    val imageFileName = "JPEG_" + timeStamp + "_"
+    val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val image = File.createTempFile(
+        imageFileName, /* prefix */
+        ".jpg", /* suffix */
+        storageDir      /* directory */
+    )
+    return image
   }
 }
