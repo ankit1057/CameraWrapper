@@ -63,7 +63,7 @@ class CameraActivity : AppCompatActivity() {
       photoResult
 //          .toBitmap(scaled(0.20f))
           .toBitmap {
-            val scale = 128f / (Math.max(it.height, it.width)).toFloat()
+            val scale = 512f / (Math.max(it.height, it.width)).toFloat()
             Resolution(height = (it.height * scale).toInt(), width = (it.width * scale).toInt())
           }
           .whenAvailable { photo: BitmapPhoto? ->
