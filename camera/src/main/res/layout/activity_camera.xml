@@ -70,6 +70,7 @@
       />
 
   <com.dhwaniris.comera.widgets.FlashSwitchView
+      android:id="@+id/flashSwitchView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
@@ -80,6 +81,7 @@
       />
 
   <com.dhwaniris.comera.widgets.CameraSwitchView
+      android:id="@+id/cameraSwitchView"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginBottom="8dp"
