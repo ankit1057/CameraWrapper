@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -27,6 +28,10 @@ import kotlin.math.max
 
 
 class CameraActivity : AppCompatActivity() {
+
+  init {
+    AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+  }
 
   private val cameraView by lazy { findViewById<CameraView>(R.id.cameraView) }
   private val capture by lazy { findViewById<View>(R.id.capture) }
