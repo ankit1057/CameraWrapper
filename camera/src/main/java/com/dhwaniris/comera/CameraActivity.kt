@@ -52,6 +52,8 @@ class CameraActivity : AppCompatActivity() {
   private var isBackCamera = true
   private val flashManager = FlashManager()
 
+  private var isProcessing = false
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_camera)
@@ -73,6 +75,11 @@ class CameraActivity : AppCompatActivity() {
     )
 
     capture.setOnClickListener {
+
+      if (isProcessing) return@setOnClickListener
+
+      isProcessing = true
+
       val photoResult = fotoapparat
           .autoFocus()
           .takePicture()
@@ -129,6 +136,7 @@ class CameraActivity : AppCompatActivity() {
       }
 
       bRetry.setOnClickListener {
+        isProcessing = false
         clCamera.visibility = View.VISIBLE
         flPreview.visibility = View.GONE
       }
