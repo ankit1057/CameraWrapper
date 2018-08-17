@@ -7,6 +7,8 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
 
+private const val REQUEST_CODE = 10
+
 internal class PermissionsDelegate(private val activity: Activity) {
 
   fun hasCameraPermission(): Boolean {
@@ -50,10 +52,5 @@ internal class PermissionsDelegate(private val activity: Activity) {
     requestCameraPermission()
     noPermissionView.setVisibility(View.VISIBLE)
     return false
-  }
-
-  companion object {
-
-    private val REQUEST_CODE = 10
   }
 }

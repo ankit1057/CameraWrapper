@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
   compileSdkVersion 27
+
   defaultConfig {
     applicationId "io.anishbajpai.simplecamera"
     minSdkVersion 16
