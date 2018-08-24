@@ -119,7 +119,9 @@ class CameraActivity : AppCompatActivity() {
           }
           .whenAvailable { photo: Bitmap? ->
             photo?.let {
-              (ivPreview.drawable as BitmapDrawable).bitmap.recycle()
+              if(ivPreview.drawable != null && ivPreview.drawable is BitmapDrawable){
+                (ivPreview.drawable as BitmapDrawable).bitmap?.recycle()
+              }
               ivPreview.setImageBitmap(it)
               clCamera.visibility = View.GONE
               flPreview.visibility = View.VISIBLE
