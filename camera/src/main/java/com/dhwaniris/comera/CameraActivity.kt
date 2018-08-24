@@ -76,7 +76,11 @@ class CameraActivity : AppCompatActivity() {
     fotoapparat = Fotoapparat(
         context = this,
         view = cameraView,         // view which will draw the camera preview
-        logger = loggers(logcat())
+        logger = loggers(logcat()),
+        cameraErrorCallback = {
+          it.printStackTrace()
+          isProcessing = false
+        }
     )
 
     capture.setOnClickListener {
