@@ -93,13 +93,12 @@ class CameraActivity : AppCompatActivity() {
           .autoFocus()
           .takePicture()
 
-      val outputStream = contentResolver.openOutputStream(imageUri).buffered()
-      photoResult.toPendingResult().transform { input ->
-        outputStream.use {
-          it.write(input.encodedImage)
-          it.flush()
-        }
-      }
+//      photoResult.toPendingResult().transform { input ->
+//        outputStream.use {
+//          it.write(input.encodedImage)
+//          it.flush()
+//        }
+//      }
 
 //      photoResult
 //          .toPendingResult()
@@ -120,7 +119,12 @@ class CameraActivity : AppCompatActivity() {
             Resolution(height = (it.height * scale).toInt(), width = (it.width * scale).toInt())
           }
           .transform {
-            it.bitmap.rotate(-it.rotationDegrees.toFloat())
+            val outputStream = contentResolver.openOutputStream(imageUri).buffered()
+            val bitmap = it.bitmap.rotate(-it.rotationDegrees.toFloat())
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+            outputStream.flush()
+            outputStream.close()
+            bitmap
           }
           .whenAvailable { photo: Bitmap? ->
             photo?.let {
