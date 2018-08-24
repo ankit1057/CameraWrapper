@@ -81,8 +81,8 @@ class CameraActivity : AppCompatActivity() {
 
     capture.setOnClickListener {
 
-      if (isProcessing) return@setOnClickListener
       Log.d("Picture", isProcessing.toString())
+      if (isProcessing) return@setOnClickListener
       isProcessing = true
 
       val photoResult = fotoapparat
