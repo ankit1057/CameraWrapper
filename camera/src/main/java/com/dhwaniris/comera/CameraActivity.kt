@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -17,6 +18,8 @@ import com.dhwaniris.comera.widgets.CameraSwitchView
 import com.dhwaniris.comera.widgets.FlashSwitchView
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.configuration.CameraConfiguration
+import io.fotoapparat.log.logcat
+import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.Resolution
 import io.fotoapparat.selector.autoFlash
 import io.fotoapparat.selector.back
@@ -71,7 +74,8 @@ class CameraActivity : AppCompatActivity() {
 
     fotoapparat = Fotoapparat(
         context = this,
-        view = cameraView         // view which will draw the camera preview
+        view = cameraView,         // view which will draw the camera preview
+        logger = loggers(logcat())
     )
 
     capture.setOnClickListener {
@@ -115,6 +119,7 @@ class CameraActivity : AppCompatActivity() {
           }
           .whenAvailable { photo: Bitmap? ->
             photo?.let {
+              (ivPreview.drawable as BitmapDrawable).bitmap.recycle()
               ivPreview.setImageBitmap(it)
               clCamera.visibility = View.GONE
               flPreview.visibility = View.VISIBLE
