@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
+import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -81,7 +82,7 @@ class CameraActivity : AppCompatActivity() {
     capture.setOnClickListener {
 
       if (isProcessing) return@setOnClickListener
-
+      Log.d("Picture", isProcessing.toString())
       isProcessing = true
 
       val photoResult = fotoapparat
