@@ -23,8 +23,14 @@ import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.Resolution
 import io.fotoapparat.selector.autoFlash
+import io.fotoapparat.selector.autoFocus
 import io.fotoapparat.selector.back
+import io.fotoapparat.selector.firstAvailable
+import io.fotoapparat.selector.fixed
 import io.fotoapparat.selector.front
+import io.fotoapparat.selector.infinity
+import io.fotoapparat.selector.lowestFps
+import io.fotoapparat.selector.lowestResolution
 import io.fotoapparat.selector.off
 import io.fotoapparat.selector.on
 import io.fotoapparat.view.CameraView
@@ -79,8 +85,18 @@ class CameraActivity : AppCompatActivity() {
         logger = loggers(logcat()),
         cameraErrorCallback = {
           it.printStackTrace()
-          isProcessing = false
-        }
+          Log.e("Camera Error Callback", "Camera Crashed", it)
+        },
+        cameraConfiguration = CameraConfiguration.default().copy(
+            pictureResolution = lowestResolution(),
+            previewResolution = lowestResolution(),
+            previewFpsRange = lowestFps(),
+            focusMode = firstAvailable(
+                autoFocus(),
+                fixed(),
+                infinity()
+            )
+            )
     )
 
     capture.setOnClickListener {
