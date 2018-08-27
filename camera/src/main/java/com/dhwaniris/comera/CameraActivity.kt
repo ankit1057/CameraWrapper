@@ -30,7 +30,6 @@ import io.fotoapparat.selector.fixed
 import io.fotoapparat.selector.front
 import io.fotoapparat.selector.infinity
 import io.fotoapparat.selector.lowestFps
-import io.fotoapparat.selector.lowestResolution
 import io.fotoapparat.selector.off
 import io.fotoapparat.selector.on
 import io.fotoapparat.view.CameraView
@@ -88,8 +87,14 @@ class CameraActivity : AppCompatActivity() {
           Log.e("Camera Error Callback", "Camera Crashed", it)
         },
         cameraConfiguration = CameraConfiguration.default().copy(
-            pictureResolution = lowestResolution(),
-            previewResolution = lowestResolution(),
+            pictureResolution = {
+              forEach { Log.d("Resolutions", it.toString()) }
+              Resolution(640, 480)
+            },
+            previewResolution = {
+              forEach { Log.d("Resolutions", it.toString()) }
+              Resolution(640, 480)
+            },
             previewFpsRange = lowestFps(),
             focusMode = firstAvailable(
                 autoFocus(),
