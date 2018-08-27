@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Matrix
+import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
@@ -78,6 +79,11 @@ class CameraActivity : AppCompatActivity() {
       permissionsDelegate.requestCameraPermission()
     }
 
+    val display = windowManager.defaultDisplay
+    val size = Point()
+    display.getSize(size)
+    val longestSide = max(size.x, size.y)
+
     fotoapparat = Fotoapparat(
         context = this,
         view = cameraView,         // view which will draw the camera preview
@@ -88,12 +94,15 @@ class CameraActivity : AppCompatActivity() {
         },
         cameraConfiguration = CameraConfiguration.default().copy(
             pictureResolution = {
-              forEach { Log.d("Resolutions", it.toString()) }
-              Resolution(640, 480)
-            },
-            previewResolution = {
-              forEach { Log.d("Resolutions", it.toString()) }
-              Resolution(640, 480)
+              var selected = first()
+              for (resolution in this) {
+                val longestWidthForResolution = max(resolution.height, resolution.width)
+                if (longestWidthForResolution >= longestSide && longestWidthForResolution <= max(
+                        selected.height, selected.width)) {
+                  selected = resolution
+                }
+              }
+              return@copy selected
             },
             previewFpsRange = lowestFps(),
             focusMode = firstAvailable(
@@ -149,9 +158,6 @@ class CameraActivity : AppCompatActivity() {
           }
           .whenAvailable { photo: Bitmap? ->
             photo?.let {
-              if(ivPreview.drawable != null && ivPreview.drawable is BitmapDrawable){
-                (ivPreview.drawable as BitmapDrawable).bitmap?.recycle()
-              }
               ivPreview.setImageBitmap(it)
               clCamera.visibility = View.GONE
               flPreview.visibility = View.VISIBLE
@@ -176,6 +182,9 @@ class CameraActivity : AppCompatActivity() {
         isProcessing = false
         clCamera.visibility = View.VISIBLE
         flPreview.visibility = View.GONE
+        if(ivPreview.drawable != null && ivPreview.drawable is BitmapDrawable){
+          (ivPreview.drawable as BitmapDrawable).bitmap?.recycle()
+        }
       }
     }
 
