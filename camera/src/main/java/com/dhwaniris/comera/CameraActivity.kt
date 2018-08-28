@@ -22,7 +22,6 @@ import com.dhwaniris.comera.widgets.CameraSwitchView
 import com.dhwaniris.comera.widgets.FlashSwitchView
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.configuration.CameraConfiguration
-import io.fotoapparat.configuration.CameraConfiguration.Companion
 import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.Resolution
@@ -67,9 +66,6 @@ class CameraActivity : AppCompatActivity() {
 
   private var isProcessing = false
 
-  private lateinit var frontCameraConfiguration: CameraConfiguration
-
-
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_camera)
@@ -104,14 +100,14 @@ class CameraActivity : AppCompatActivity() {
     display.getSize(size)
     val longestSide = max(size.x, size.y)
 
-    frontCameraConfiguration = CameraConfiguration.default().copy(
+    val cameraConfiguration = CameraConfiguration.default().copy(
         pictureResolution = {
           var selected = first()
-          for (resolution in this) {
-            val longestWidthForResolution = max(resolution.height, resolution.width)
-            if (longestWidthForResolution >= longestSide && longestWidthForResolution <= max(
-                    selected.height, selected.width)) {
-              selected = resolution
+          forEach{
+            val longestWidthForResolution = max(it.height, it.width)
+            if (longestWidthForResolution >= longestSide){
+              if (it.width <= selected.width  && it.height <= selected.height)
+              selected = it
             }
           }
           return@copy selected
@@ -124,7 +120,6 @@ class CameraActivity : AppCompatActivity() {
         )
     )
 
-
     fotoapparat = Fotoapparat(
         context = this,
         view = cameraView,         // view which will draw the camera preview
@@ -133,7 +128,7 @@ class CameraActivity : AppCompatActivity() {
           it.printStackTrace()
           Log.e("Camera Error Callback", "Camera Crashed", it)
         },
-        cameraConfiguration = frontCameraConfiguration
+        cameraConfiguration = cameraConfiguration
     )
 
     capture.setOnClickListener {
@@ -214,10 +209,10 @@ class CameraActivity : AppCompatActivity() {
     cameraSwitchView.setOnClickListener {
 
       if (isBackCamera) {
-        fotoapparat.switchTo(front(), frontCameraConfiguration)
+        fotoapparat.switchTo(front(), cameraConfiguration)
         cameraSwitchView.displayFrontCamera()
       } else {
-        fotoapparat.switchTo(back(), CameraConfiguration.default())
+        fotoapparat.switchTo(back(), cameraConfiguration)
         cameraSwitchView.displayBackCamera()
       }
 
