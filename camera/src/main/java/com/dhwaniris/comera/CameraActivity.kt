@@ -225,15 +225,15 @@ class CameraActivity : AppCompatActivity() {
       when (current) {
         is CameraFlashAuto -> {
           fotoapparat.updateConfiguration(
-              CameraConfiguration.default().copy(flashMode = autoFlash()))
+              cameraConfiguration.copy(flashMode = autoFlash()))
           flashSwitchView.displayFlashAuto()
         }
         is CameraFlashOn -> {
-          fotoapparat.updateConfiguration(CameraConfiguration.default().copy(flashMode = on()))
+          fotoapparat.updateConfiguration(cameraConfiguration.copy(flashMode = on()))
           flashSwitchView.displayFlashOn()
         }
         is CameraFlashOff -> {
-          fotoapparat.updateConfiguration(CameraConfiguration.default().copy(flashMode = off()))
+          fotoapparat.updateConfiguration(cameraConfiguration.copy(flashMode = off()))
           flashSwitchView.displayFlashOff()
         }
       }
