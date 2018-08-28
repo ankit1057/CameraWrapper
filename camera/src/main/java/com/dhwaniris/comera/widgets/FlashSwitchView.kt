@@ -24,7 +24,7 @@ class FlashSwitchView @JvmOverloads constructor(context: Context,
 
   private fun init() {
     setBackgroundColor(Color.TRANSPARENT)
-    displayFlashAuto()
+    displayFlashOff()
   }
 
   fun displayFlashOff() {
