@@ -102,8 +102,9 @@ class CameraActivity : AppCompatActivity() {
 
     val cameraConfiguration = CameraConfiguration.default().copy(
         pictureResolution = {
-          var selected = first()
-          forEach{
+          val sorted = sortedByDescending { it.area }
+          var selected = sorted.first()
+          sorted.forEach {
             val longestWidthForResolution = max(it.height, it.width)
             if (longestWidthForResolution >= longestSide){
               if (it.width <= selected.width  && it.height <= selected.height)
