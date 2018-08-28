@@ -50,9 +50,6 @@ class MainActivity : AppCompatActivity() {
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data != null) {
-      val extras = data.extras
-      val imageBitmap = extras?.get("data") as Bitmap
-      imageView.setImageBitmap(imageBitmap)
     }
   }
 

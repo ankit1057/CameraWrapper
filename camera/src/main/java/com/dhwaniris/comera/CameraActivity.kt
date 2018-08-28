@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.Point
 import android.graphics.drawable.BitmapDrawable
+import android.hardware.Camera
+import android.hardware.Camera.CameraInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -20,6 +22,7 @@ import com.dhwaniris.comera.widgets.CameraSwitchView
 import com.dhwaniris.comera.widgets.FlashSwitchView
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.configuration.CameraConfiguration
+import io.fotoapparat.configuration.CameraConfiguration.Companion
 import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.Resolution
@@ -64,6 +67,9 @@ class CameraActivity : AppCompatActivity() {
 
   private var isProcessing = false
 
+  private lateinit var frontCameraConfiguration: CameraConfiguration
+
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_camera)
@@ -79,10 +85,45 @@ class CameraActivity : AppCompatActivity() {
       permissionsDelegate.requestCameraPermission()
     }
 
+    var backCameraId = -1
+    for (i in 0 until Camera.getNumberOfCameras()) {
+      val cameraInfo = CameraInfo()
+      Camera.getCameraInfo(i, cameraInfo)
+      if (cameraInfo.facing == CameraInfo.CAMERA_FACING_FRONT) {
+        backCameraId = i
+        break
+      }
+    }
+
+    if (backCameraId == -1) {
+      cameraSwitchView.visibility = View.GONE
+    }
+
     val display = windowManager.defaultDisplay
     val size = Point()
     display.getSize(size)
     val longestSide = max(size.x, size.y)
+
+    frontCameraConfiguration = CameraConfiguration.default().copy(
+        pictureResolution = {
+          var selected = first()
+          for (resolution in this) {
+            val longestWidthForResolution = max(resolution.height, resolution.width)
+            if (longestWidthForResolution >= longestSide && longestWidthForResolution <= max(
+                    selected.height, selected.width)) {
+              selected = resolution
+            }
+          }
+          return@copy selected
+        },
+        previewFpsRange = lowestFps(),
+        focusMode = firstAvailable(
+            autoFocus(),
+            fixed(),
+            infinity()
+        )
+    )
+
 
     fotoapparat = Fotoapparat(
         context = this,
@@ -92,25 +133,7 @@ class CameraActivity : AppCompatActivity() {
           it.printStackTrace()
           Log.e("Camera Error Callback", "Camera Crashed", it)
         },
-        cameraConfiguration = CameraConfiguration.default().copy(
-            pictureResolution = {
-              var selected = first()
-              for (resolution in this) {
-                val longestWidthForResolution = max(resolution.height, resolution.width)
-                if (longestWidthForResolution >= longestSide && longestWidthForResolution <= max(
-                        selected.height, selected.width)) {
-                  selected = resolution
-                }
-              }
-              return@copy selected
-            },
-            previewFpsRange = lowestFps(),
-            focusMode = firstAvailable(
-                autoFocus(),
-                fixed(),
-                infinity()
-            )
-            )
+        cameraConfiguration = frontCameraConfiguration
     )
 
     capture.setOnClickListener {
@@ -191,7 +214,7 @@ class CameraActivity : AppCompatActivity() {
     cameraSwitchView.setOnClickListener {
 
       if (isBackCamera) {
-        fotoapparat.switchTo(front(), CameraConfiguration.default())
+        fotoapparat.switchTo(front(), frontCameraConfiguration)
         cameraSwitchView.displayFrontCamera()
       } else {
         fotoapparat.switchTo(back(), CameraConfiguration.default())
