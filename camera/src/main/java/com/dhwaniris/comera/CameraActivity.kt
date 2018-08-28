@@ -100,26 +100,29 @@ class CameraActivity : AppCompatActivity() {
     display.getSize(size)
     val longestSide = max(size.x, size.y)
 
-    val cameraConfiguration = CameraConfiguration.default().copy(
-        pictureResolution = {
-          val sorted = sortedByDescending { it.area }
-          var selected = sorted.first()
-          sorted.forEach {
-            val longestWidthForResolution = max(it.height, it.width)
-            if (longestWidthForResolution >= longestSide){
-              if (it.width <= selected.width  && it.height <= selected.height)
-              selected = it
-            }
-          }
-          return@copy selected
-        },
+    val cameraConfiguration =
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
+          CameraConfiguration.default().copy(
+              pictureResolution = {
+                val sorted = sortedByDescending { it.area }
+                var selected = sorted.first()
+                sorted.forEach {
+                  val longestWidthForResolution = max(it.height, it.width)
+                  if (longestWidthForResolution >= longestSide) {
+                    if (it.width <= selected.width && it.height <= selected.height)
+                      selected = it
+                  }
+                }
+                return@copy selected
+              },
         previewFpsRange = lowestFps(),
-        focusMode = firstAvailable(
-            autoFocus(),
-            fixed(),
-            infinity()
-        )
-    )
+              focusMode = firstAvailable(
+                  autoFocus(),
+                  fixed(),
+                  infinity()
+              )
+          )
+        } else CameraConfiguration.default()
 
     fotoapparat = Fotoapparat(
         context = this,
