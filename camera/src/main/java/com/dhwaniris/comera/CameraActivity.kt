@@ -2,6 +2,7 @@ package com.dhwaniris.comera
 
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.graphics.Point
@@ -96,7 +97,10 @@ class CameraActivity : AppCompatActivity() {
                 break
             }
         }
-
+        var hasflash = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
+        if (!hasflash) {
+            flashSwitchView.visibility = View.GONE
+        }
         if (backCameraId == -1) {
             cameraSwitchView.visibility = View.GONE
         }
