@@ -6,13 +6,14 @@ import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.AppCompatImageButton
+import android.support.v7.widget.AppCompatImageView
 import android.util.AttributeSet
 import android.util.TypedValue
 import com.dhwaniris.comera.R
 
 
 class CameraSwitchView @JvmOverloads constructor(context: Context,
-    attrs: AttributeSet? = null) : AppCompatImageButton(context, attrs) {
+    attrs: AttributeSet? = null) : AppCompatImageView(context, attrs) {
 
   private var frontCameraDrawable: Drawable? = null
   private var rearCameraDrawable: Drawable? = null
@@ -27,17 +28,8 @@ class CameraSwitchView @JvmOverloads constructor(context: Context,
   private fun initializeView() {
     val context = context
     frontCameraDrawable = ContextCompat.getDrawable(context, R.drawable.ic_camera_front_white_24dp)
-    frontCameraDrawable = DrawableCompat.wrap(frontCameraDrawable!!)
-    DrawableCompat.setTintList(frontCameraDrawable!!.mutate(),
-        ContextCompat.getColorStateList(context, R.color.switch_camera_mode_selector))
 
     rearCameraDrawable = ContextCompat.getDrawable(context, R.drawable.ic_camera_rear_white_24dp)
-    rearCameraDrawable = DrawableCompat.wrap(rearCameraDrawable!!)
-    DrawableCompat.setTintList(rearCameraDrawable!!.mutate(),
-        ContextCompat.getColorStateList(context, R.color.switch_camera_mode_selector))
-
-    setBackgroundResource(R.drawable.circle_frame_background_dark)
-    displayBackCamera()
 
     padding = padding.dipToPixels(context)
     setPadding(padding, padding, padding, padding)

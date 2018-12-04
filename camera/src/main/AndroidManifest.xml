@@ -5,6 +5,8 @@
   <application>
     <activity android:name=".CameraActivity"
         android:screenOrientation="portrait"
+        android:configChanges="orientation|keyboardHidden|screenSize"
+        android:windowSoftInputMode="stateHidden|adjustResize"
         />
   </application>
 
