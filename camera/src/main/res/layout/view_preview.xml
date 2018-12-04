@@ -15,63 +15,60 @@
       android:scaleType="centerCrop"
       />
 
+
+
+
   <android.support.constraint.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="112dp"
       android:layout_gravity="bottom"
-      android:background="#aa000000"
       >
 
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#77000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <ImageView
         android:id="@+id/b_accept"
-        android:layout_width="0dp"
-        android:layout_height="64dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        app:srcCompat="@drawable/ic_check_mark"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,1"
-        app:layout_constraintEnd_toStartOf="@id/b_reject"
-        app:layout_constraintStart_toEndOf="@id/b_retry"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_white_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription"
         />
+
 
     <ImageView
         android:id="@+id/b_reject"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="12dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/b_accept"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_close_white_24dp"
         />
     <ImageView
         android:id="@+id/b_retry"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginRight="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,1"
-        app:layout_constraintEnd_toStartOf="@id/b_accept"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_refresh_reset_24dp"
         />
 
