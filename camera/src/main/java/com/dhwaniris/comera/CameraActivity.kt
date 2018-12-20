@@ -1,6 +1,7 @@
 package com.dhwaniris.comera
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -264,6 +265,7 @@ class CameraActivity : AppCompatActivity() {
         super.onStop()
         if (permissionsDelegate.hasCameraPermission()) {
             fotoapparat.stop()
+            isProcessing = false
         }
     }
 
