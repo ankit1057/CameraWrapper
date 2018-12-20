@@ -1,6 +1,7 @@
 package com.dhwaniris.comera
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -41,6 +42,10 @@ import io.fotoapparat.selector.on
 import io.fotoapparat.view.CameraView
 import kotlin.math.max
 
+const val KEY_FLASH_STATE = "key_flash_state"
+const val CAMERA_FLASH_AUTO = 0
+const val CAMERA_FLASH_OFF = 1
+const val CAMERA_FLASH_ON = 2
 
 class CameraActivity : AppCompatActivity() {
 
@@ -61,11 +66,13 @@ class CameraActivity : AppCompatActivity() {
   private val flPreview by lazy { findViewById<FrameLayout>(R.id.fl_preview) }
   private val clCamera by lazy { findViewById<ConstraintLayout>(R.id.cl_camera) }
 
+  private val sharedPrefs by lazy { getSharedPreferences("camera_prefs", Context.MODE_PRIVATE) }
+
   private lateinit var fotoapparat: Fotoapparat
   private val permissionsDelegate = PermissionsDelegate(this)
   private lateinit var imageUri: Uri
   private var isBackCamera = true
-  private val flashManager = FlashManager()
+  private var flashState = CAMERA_FLASH_AUTO
 
   private var isProcessing = false
 
@@ -101,6 +108,9 @@ class CameraActivity : AppCompatActivity() {
     if (!hasflash) {
       flashSwitchView.visibility = View.GONE
     }
+
+    flashState = sharedPrefs.getInt(KEY_FLASH_STATE, CAMERA_FLASH_AUTO)
+
     if (backCameraId == -1) {
       cameraSwitchView.visibility = View.GONE
     }
@@ -110,7 +120,7 @@ class CameraActivity : AppCompatActivity() {
     display.getSize(size)
     val longestSide = max(size.x, size.y)
 
-    val cameraConfiguration =
+    var cameraConfiguration =
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
           CameraConfiguration.default().copy(
               pictureResolution = {
@@ -134,6 +144,7 @@ class CameraActivity : AppCompatActivity() {
           )
         } else CameraConfiguration.default()
 
+    cameraConfiguration = setFlashState(flashState, cameraConfiguration)
     fotoapparat = Fotoapparat(
         context = this,
         view = cameraView,         // view which will draw the camera preview
@@ -234,23 +245,34 @@ class CameraActivity : AppCompatActivity() {
     }
 
     flashSwitchView.setOnClickListener {
-      val current = flashManager.switch()
-      when (current) {
-        is CameraFlashAuto -> {
-          fotoapparat.updateConfiguration(
-              cameraConfiguration.copy(flashMode = autoFlash()))
-          flashSwitchView.displayFlashAuto()
-        }
-        is CameraFlashOn -> {
-          fotoapparat.updateConfiguration(cameraConfiguration.copy(flashMode = on()))
-          flashSwitchView.displayFlashOn()
-        }
-        is CameraFlashOff -> {
-          fotoapparat.updateConfiguration(cameraConfiguration.copy(flashMode = off()))
-          flashSwitchView.displayFlashOff()
-        }
+      switchCameraFlash()
+      sharedPrefs.edit().putInt(KEY_FLASH_STATE, flashState).apply()
+      fotoapparat.updateConfiguration(setFlashState(flashState, cameraConfiguration))
+    }
+  }
+
+  private fun switchCameraFlash(): Int {
+    flashState = (flashState + 1) % 3
+    return flashState
+  }
+
+  private fun setFlashState(current: Int, cameraConfiguration: CameraConfiguration): CameraConfiguration {
+    return when (current) {
+      CAMERA_FLASH_AUTO -> {
+
+        flashSwitchView.displayFlashAuto()
+        cameraConfiguration.copy(flashMode = autoFlash())
+      }
+      CAMERA_FLASH_ON -> {
+        flashSwitchView.displayFlashOn()
+        cameraConfiguration.copy(flashMode = on())
+      }
+      else -> {
+        flashSwitchView.displayFlashOff()
+        cameraConfiguration.copy(flashMode = off())
       }
     }
+
   }
 
   override fun onStart() {
@@ -275,26 +297,6 @@ class CameraActivity : AppCompatActivity() {
       fotoapparat.start()
       cameraView.visibility = View.VISIBLE
     }
-  }
-}
-
-sealed class CameraFlashState
-
-object CameraFlashAuto : CameraFlashState()
-object CameraFlashOff : CameraFlashState()
-object CameraFlashOn : CameraFlashState()
-
-class FlashManager {
-  private val modes = listOf(CameraFlashAuto, CameraFlashOn, CameraFlashOff)
-  private var current = 0
-
-  fun switch(): CameraFlashState {
-    current = (++current) % modes.size
-    return modes[current]
-  }
-
-  fun current(): CameraFlashState {
-    return modes[current]
   }
 }
 
