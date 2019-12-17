@@ -14,7 +14,7 @@ Add the dependency in your app build.gradle
 
 ```
 dependencies {
-	        implementation 'com.github.anishbajpai014:CameraWrapper:0.1.2'
+	        implementation 'com.github.sahjadansari619:CameraWrapper:1.2.3'
 	}
 ```
 
