@@ -44,6 +44,22 @@
 
     </io.fotoapparat.view.CameraView>
 
+    <View
+        android:layout_width="wrap_content"
+        android:id="@+id/object_layout"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_blur"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        >
+
+    </View>
+
     <TextView
         android:id="@+id/no_permission"
         android:layout_width="wrap_content"
@@ -60,6 +76,21 @@
         android:textSize="20sp"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/capture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText"
+        tools:visibility="visible"
+        />
+    <TextView
+        android:id="@+id/obj_mgs"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_marginTop="20dp"
+        android:text="Please keep object in center"
+        android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

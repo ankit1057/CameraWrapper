@@ -36,10 +36,18 @@ import io.fotoapparat.selector.lowestFps
 import io.fotoapparat.selector.off
 import io.fotoapparat.selector.on
 import io.fotoapparat.view.CameraView
+import kotlinx.android.synthetic.main.activity_camera.*
 import kotlin.math.max
 
 
 class CameraActivity : AppCompatActivity() {
+  companion object{
+    const val OBJECT_SHAPE="OBJECT_SHAPE"
+    const val RECTANGLE_SHAPE=1
+    const val CARD_SHAPE=2
+
+  }
+
 
   init {
     AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
@@ -74,6 +82,28 @@ class CameraActivity : AppCompatActivity() {
     supportActionBar?.hide()
 
     imageUri = intent.getParcelableExtra(MediaStore.EXTRA_OUTPUT)
+    if (intent.extras!=null){
+      val objectShape = intent.getIntExtra(OBJECT_SHAPE, 0)
+      if (objectShape!=0){
+        obj_mgs.visibility=View.VISIBLE
+        object_layout.visibility=View.VISIBLE
+        cameraSwitchView.visibility=View.GONE
+
+        when (objectShape){
+          RECTANGLE_SHAPE-> object_layout.setBackgroundResource(R.drawable.ic_blur)
+          CARD_SHAPE-> object_layout.setBackgroundResource(R.drawable.ic_blur_2)
+
+
+        }
+
+
+
+      }
+
+
+    }
+
+
 
     if (permissionsDelegate.hasCameraPermission()) {
       cameraView.visibility = View.VISIBLE
