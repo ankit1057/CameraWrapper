@@ -63,7 +63,7 @@ class CameraActivity : AppCompatActivity() {
 
     private lateinit var fotoapparat: Fotoapparat
     private val permissionsDelegate = PermissionsDelegate(this)
-    private lateinit var imageUri: Uri
+    private var imageUri: Uri? = null
     private var isBackCamera = true
     private val flashManager = FlashManager()
 
@@ -96,8 +96,6 @@ class CameraActivity : AppCompatActivity() {
 
 
         }
-
-
 
         if (permissionsDelegate.hasCameraPermission()) {
             cameraView.visibility = View.VISIBLE
@@ -183,7 +181,7 @@ class CameraActivity : AppCompatActivity() {
                     )
                 }
                 .transform {
-                    val outputStream = contentResolver.openOutputStream(imageUri).buffered()
+                    val outputStream = contentResolver.openOutputStream(imageUri!!)?.buffered()
                     val bitmap = it.bitmap.rotate(-it.rotationDegrees.toFloat())
                     if (addTimeDate) {
                         addTimeOnImage(bitmap)
@@ -192,8 +190,8 @@ class CameraActivity : AppCompatActivity() {
                         addCustomTextOnImage(bitmap, customText!!)
                     }
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
-                    outputStream.flush()
-                    outputStream.close()
+                    outputStream?.flush()
+                    outputStream?.close()
                     bitmap
                 }
                 .whenAvailable { photo: Bitmap? ->
@@ -212,7 +210,7 @@ class CameraActivity : AppCompatActivity() {
             }
 
             bReject.setOnClickListener {
-                contentResolver.delete(imageUri, null, null)
+                contentResolver.delete(imageUri!!, null, null)
                 val result = Intent()
                 setResult(Activity.RESULT_CANCELED, result)
                 finish()
