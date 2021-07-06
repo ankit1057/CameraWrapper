@@ -29,3 +29,21 @@ startActivityForResult(intent, REQUEST_CODE);
 ```
 
 The `CameraActivity` does not return a thumbnail in `onActivityResult()`, the image should be accessed using the content uri.
+
+
+To add the Date/Time on Image
+
+```
+myIntent.putExtra(CameraActivity.EXTRA_ADD_TIMESTAMP,true)
+```
+
+To add custom text on image
+
+ ```
+ myIntent.putExtra(CameraActivity.EXTRA_CUSTOM_TEXT,"Your text is here")
+ ```
+ 
+ 
+
+
+                
