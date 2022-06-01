@@ -25,10 +25,12 @@ import android.widget.ImageView
 import com.dhwaniris.comera.widgets.CameraSwitchView
 import com.dhwaniris.comera.widgets.FlashSwitchView
 import io.fotoapparat.Fotoapparat
+import io.fotoapparat.capability.Capabilities
 import io.fotoapparat.configuration.CameraConfiguration
 import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.Resolution
+<<<<<<< Updated upstream
 import io.fotoapparat.selector.autoFlash
 import io.fotoapparat.selector.autoFocus
 import io.fotoapparat.selector.back
@@ -40,6 +42,17 @@ import io.fotoapparat.selector.lowestFps
 import io.fotoapparat.selector.off
 import io.fotoapparat.selector.on
 import io.fotoapparat.view.CameraView
+=======
+import io.fotoapparat.parameter.Zoom
+import io.fotoapparat.result.PhotoResult
+import io.fotoapparat.result.transformer.scaled
+import io.fotoapparat.selector.*
+import io.fotoapparat.view.CameraView
+import io.fotoapparat.view.FocusView
+import kotlinx.android.synthetic.main.activity_camera.*
+import java.text.SimpleDateFormat
+import java.util.*
+>>>>>>> Stashed changes
 import kotlin.math.max
 
 const val KEY_FLASH_STATE = "key_flash_state"
@@ -82,7 +95,78 @@ class CameraActivity : AppCompatActivity() {
     window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
         WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
+<<<<<<< Updated upstream
     setContentView(R.layout.activity_camera)
+=======
+        var backCameraId = -1
+        for (i in 0 until Camera.getNumberOfCameras()) {
+            val cameraInfo = CameraInfo()
+            Camera.getCameraInfo(i, cameraInfo)
+            if (cameraInfo.facing == CameraInfo.CAMERA_FACING_FRONT) {
+                backCameraId = i
+                break
+            }
+        }
+
+        if (backCameraId == -1) {
+            cameraSwitchView.visibility = View.GONE
+        }
+
+        val display = windowManager.defaultDisplay
+        val size = Point()
+        display.getSize(size)
+        val longestSide = max(size.x, size.y)
+
+        val cameraConfiguration = configuration
+
+        fotoapparat = Fotoapparat(
+            context = this,
+            view = cameraView,         // view which will draw the camera preview
+            logger = loggers(logcat()),
+            cameraErrorCallback = {
+                it.printStackTrace()
+                Log.e("Camera Error Callback", "Camera Crashed", it)
+            },
+            cameraConfiguration = cameraConfiguration
+        )
+
+        capture.setOnClickListener {
+
+            Log.d("Picture", isProcessing.toString())
+            if (isProcessing) return@setOnClickListener
+            isProcessing = true
+
+            // var scale = 0f
+            val photoResult = fotoapparat
+                .autoFocus()
+                .takePicture()
+
+            photoResult
+                .toBitmap {
+                     scaled(0.50f).invoke(it);
+                }
+                .transform {
+                    val outputStream = contentResolver.openOutputStream(imageUri!!)?.buffered()
+                    val bitmap = it.bitmap.rotate(-it.rotationDegrees.toFloat())
+                    if (addTimeDate) {
+                        addTimeOnImage(bitmap)
+                    }
+                    if (!customText.isNullOrEmpty()) {
+                        addCustomTextOnImage(bitmap, customText!!)
+                    }
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+                    outputStream?.flush()
+                    outputStream?.close()
+                    bitmap
+                }
+                .whenAvailable { photo: Bitmap? ->
+                    photo?.let {
+                        ivPreview.setImageBitmap(it)
+                        clCamera.visibility = View.GONE
+                        flPreview.visibility = View.VISIBLE
+                    }
+                }
+>>>>>>> Stashed changes
 
     actionBar?.hide()
     supportActionBar?.hide()
@@ -207,12 +291,52 @@ class CameraActivity : AppCompatActivity() {
             }
           }
 
+<<<<<<< Updated upstream
     }
     bAccept.setOnClickListener {
       val result = Intent()
       result.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
       setResult(RESULT_OK, result)
       finish()
+=======
+    val configuration = CameraConfiguration(
+        pictureResolution = { nearestBy(Resolution(1280, 720), Resolution::area) }
+    )
+
+    inline fun <T> Iterable<T>.nearestBy(ofValue: T, selector: (T) -> Int): T? {
+        val iterator = iterator()
+        if (!iterator.hasNext()) return null
+        val valueToCompare = selector(ofValue)
+        var nearestElem = iterator.next()
+        var nearestRange = Math.abs(selector(nearestElem) - valueToCompare)
+        var currentRange: Int
+        while (iterator.hasNext()) {
+            val e = iterator.next()
+            val v = selector(e)
+            currentRange = Math.abs(v - valueToCompare)
+            if (currentRange < nearestRange) {
+                nearestElem = e
+                nearestRange = currentRange
+            }
+        }
+        return nearestElem
+    }
+
+    private fun addTimeOnImage(bitmap: Bitmap) {
+        val resources: Resources = this.resources
+        val scale: Float = resources.displayMetrics.density
+        val canvas = Canvas(bitmap)
+        val mText = getDateTime()
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        paint.color = Color.WHITE;
+        paint.textSize = (20 * scale);
+        paint.setShadowLayer(1f, 0f, 1f, Color.DKGRAY)
+        val bounds = Rect()
+        paint.getTextBounds(mText, 0, mText.length, bounds)
+        val x: Float = (bitmap.width - bounds.width()) - (20 * scale)
+        val y: Float = (bitmap.height - bounds.height()) - (20 * scale)
+        canvas.drawText(mText, x, y, paint);
+>>>>>>> Stashed changes
     }
 
     bReject.setOnClickListener {

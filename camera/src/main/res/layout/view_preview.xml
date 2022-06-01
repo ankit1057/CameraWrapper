@@ -12,7 +12,11 @@
       android:id="@+id/iv_preview"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+<<<<<<< Updated upstream
       android:scaleType="centerCrop"
+=======
+      android:scaleType="fitCenter"
+>>>>>>> Stashed changes
       />
 
 
