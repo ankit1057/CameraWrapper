@@ -24,10 +24,12 @@ import io.fotoapparat.configuration.CameraConfiguration
 import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.Resolution
+import io.fotoapparat.result.transformer.scaled
 import io.fotoapparat.selector.*
 import io.fotoapparat.view.CameraView
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.text.SimpleDateFormat
+import java.time.Clock
 import java.util.*
 import kotlin.math.max
 
@@ -94,7 +96,6 @@ class CameraActivity : AppCompatActivity() {
             addTimeDate = intent.getBooleanExtra(EXTRA_ADD_TIMESTAMP, false)
             customText = intent.getStringExtra(EXTRA_CUSTOM_TEXT)
 
-
         }
 
         if (permissionsDelegate.hasCameraPermission()) {
@@ -122,29 +123,7 @@ class CameraActivity : AppCompatActivity() {
         display.getSize(size)
         val longestSide = max(size.x, size.y)
 
-        val cameraConfiguration =
-            if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
-                CameraConfiguration.default().copy(
-                    pictureResolution = {
-                        val sorted = sortedByDescending { it.area }
-                        var selected = sorted.first()
-                        sorted.forEach {
-                            val longestWidthForResolution = max(it.height, it.width)
-                            if (longestWidthForResolution >= longestSide) {
-                                if (it.width <= selected.width && it.height <= selected.height)
-                                    selected = it
-                            }
-                        }
-                        return@copy selected
-                    },
-                    previewFpsRange = lowestFps(),
-                    focusMode = firstAvailable(
-                        autoFocus(),
-                        fixed(),
-                        infinity()
-                    )
-                )
-            } else CameraConfiguration.default()
+        val cameraConfiguration = configuration
 
         fotoapparat = Fotoapparat(
             context = this,
@@ -168,16 +147,15 @@ class CameraActivity : AppCompatActivity() {
                 .autoFocus()
                 .takePicture()
 
-
             photoResult
                 .toBitmap {
-                    val scale = max(ivPreview.height, ivPreview.width).toFloat() / max(
-                        it.height,
-                        it.width
-                    ).toFloat()
+//                    val scale = max(ivPreview.height, ivPreview.width).toFloat() / max(
+//                        it.height,
+//                        it.width
+//                    ).toFloat()
                     Resolution(
-                        height = (it.height * scale).toInt(),
-                        width = (it.width * scale).toInt()
+                        height = (it.height ).toInt(),
+                        width = (it.width ).toInt()
                     )
                 }
                 .transform {
@@ -258,6 +236,39 @@ class CameraActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun getMidRes(): Iterable<Resolution>.() -> Resolution? {
+        return { this.mid(Resolution::area) }
+    }
+
+    public inline fun <T, R : Comparable<R>> Iterable<T>.mid(selector: (T) -> R): T? {
+        val iterator = iterator()
+        val list = iterator.asSequence().toList()
+        return list.get(list.size/2 + list.size % 2)
+    }
+
+    val configuration = CameraConfiguration(
+        pictureResolution = { nearestBy(Resolution(1280, 720), Resolution::area) }
+    )
+
+    inline fun <T> Iterable<T>.nearestBy(ofValue: T, selector: (T) -> Int): T? {
+        val iterator = iterator()
+        if (!iterator.hasNext()) return null
+        val valueToCompare = selector(ofValue)
+        var nearestElem = iterator.next()
+        var nearestRange = Math.abs(selector(nearestElem) - valueToCompare)
+        var currentRange: Int
+        while (iterator.hasNext()) {
+            val e = iterator.next()
+            val v = selector(e)
+            currentRange = Math.abs(v - valueToCompare)
+            if (currentRange < nearestRange) {
+                nearestElem = e
+                nearestRange = currentRange
+            }
+        }
+        return nearestElem
     }
 
     private fun addTimeOnImage(bitmap: Bitmap) {
