@@ -24,12 +24,10 @@ import io.fotoapparat.configuration.CameraConfiguration
 import io.fotoapparat.log.logcat
 import io.fotoapparat.log.loggers
 import io.fotoapparat.parameter.Resolution
-import io.fotoapparat.result.transformer.scaled
 import io.fotoapparat.selector.*
 import io.fotoapparat.view.CameraView
 import kotlinx.android.synthetic.main.activity_camera.*
 import java.text.SimpleDateFormat
-import java.time.Clock
 import java.util.*
 import kotlin.math.max
 
@@ -235,6 +233,13 @@ class CameraActivity : AppCompatActivity() {
                     flashSwitchView.displayFlashOff()
                 }
             }
+        }
+
+        val cameraOrientation = intent.getStringExtra(CAMERA_ORIENTATION)
+        if(cameraOrientation!=null){
+            fotoapparat.switchTo(front(), cameraConfiguration)
+            cameraSwitchView.displayFrontCamera()
+            isBackCamera = false
         }
     }
 

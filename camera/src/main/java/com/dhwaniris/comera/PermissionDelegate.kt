@@ -9,6 +9,10 @@ import android.view.View
 
 private const val REQUEST_CODE = 10
 
+const val CAMERA_BACK = "CAMERA_BACK"
+const val CAMERA_FRONT = "CAMERA_FRONT"
+const val CAMERA_ORIENTATION = "CAMERA_ORIENTATION"
+
 internal class PermissionsDelegate(private val activity: Activity) {
 
   fun hasCameraPermission(): Boolean {
