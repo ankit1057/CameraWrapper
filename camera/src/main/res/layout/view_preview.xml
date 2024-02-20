@@ -1,79 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fl_preview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
-  <ImageView
-      android:id="@+id/iv_preview"
-      android:scaleType="fitCenter"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-  <android.support.constraint.ConstraintLayout
-      android:layout_width="match_parent"
-      android:layout_height="112dp"
-      android:layout_gravity="bottom"
-      android:background="#aa000000"
-      >
+        <ImageView
+            android:id="@+id/iv_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Image"
+            android:scaleType="fitCenter"
+            android:layout_alignParentTop="true"
+            tools:ignore="HardcodedText" />
+        <LinearLayout
+            android:id="@+id/ll_location_preview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#77000000"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            android:layout_alignParentTop="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
-    <ImageView
-        android:id="@+id/b_accept"
-        android:layout_width="0dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,1"
-        app:layout_constraintEnd_toStartOf="@id/b_reject"
-        app:layout_constraintStart_toEndOf="@id/b_retry"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_check_white_24dp"
-        />
+            <LinearLayout
 
-    <ImageView
-        android:id="@+id/b_reject"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/b_accept"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_close_white_24dp"
-        />
-    <ImageView
-        android:id="@+id/b_retry"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="h,1"
-        app:layout_constraintEnd_toStartOf="@id/b_accept"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_refresh_reset_24dp"
-        />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:weightSum="7.5"
+                tools:ignore="UselessParent">
 
-  </android.support.constraint.ConstraintLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Latitude"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp"
+                        tools:ignore="HardcodedText" />
+
+
+                    <TextView
+                        android:id="@+id/latitude_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="2.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Longitude"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp"
+                        tools:ignore="HardcodedText" />
+
+
+                    <TextView
+                        android:id="@+id/longitude_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Accuracy"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp"
+                        tools:ignore="HardcodedText" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@android:color/white" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/accuracy_background"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_weight="2.5"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Accuracy"
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp" />
+
+                    <!--                @string/time-->
+                    <TextView
+                        android:id="@+id/accuracytext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="TimeStamp"
+                    android:textColor="@android:color/white"
+                    android:textSize="11sp"
+                    tools:ignore="HardcodedText" />
+
+
+                <TextView
+                    android:id="@+id/jaitpur_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="5dp"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:text=""
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_options"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_gravity="bottom"
+        android:background="#aa000000">
+
+        <ImageView
+            android:id="@+id/b_accept"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1"
+            app:layout_constraintEnd_toStartOf="@id/b_reject"
+            app:layout_constraintStart_toEndOf="@id/b_retry"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_check_white_24dp"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/b_reject"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/b_accept"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_close_white_24dp"
+            tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/b_retry"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h,1"
+            app:layout_constraintEnd_toStartOf="@id/b_accept"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_refresh_reset_24dp"
+            tools:ignore="HardcodedText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
