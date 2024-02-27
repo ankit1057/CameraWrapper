@@ -537,9 +537,9 @@ class CameraActivity : AppCompatActivity() {
 
 sealed class CameraFlashState
 
-data object CameraFlashAuto : CameraFlashState()
-data object CameraFlashOff : CameraFlashState()
-data object CameraFlashOn : CameraFlashState()
+object CameraFlashAuto : CameraFlashState()
+object CameraFlashOff : CameraFlashState()
+object CameraFlashOn : CameraFlashState()
 
 class FlashManager {
     private val modes = listOf(CameraFlashAuto, CameraFlashOn, CameraFlashOff)

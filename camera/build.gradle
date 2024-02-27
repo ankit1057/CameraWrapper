@@ -63,5 +63,6 @@ dependencies {
   implementation 'io.fotoapparat:fotoapparat:2.7.0'
   implementation 'com.intuit.sdp:sdp-android:1.1.0'
 
-  implementation 'com.google.android.gms:play-services-location:21.1.0'
+//  implementation 'com.google.android.gms:play-services-location:18.0.0'
+  implementation 'com.google.android.gms:play-services-location:18.0.0'
 }

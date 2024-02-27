@@ -115,13 +115,19 @@ class LocationUtils(private val context: AppCompatActivity,private val listener:
     }
     private val failedListener = FailedListener()
 
-    private val locationRequest: LocationRequest = LocationRequest.Builder(
+    private val locationRequest: LocationRequest = LocationRequest().apply{
+        priority = Priority.PRIORITY_HIGH_ACCURACY// the desired priority
+        interval = 30_000// the desired interval in milliseconds
+        isWaitForAccurateLocation = true
+    }
+
+        /*.Builder(
         Priority.PRIORITY_HIGH_ACCURACY, // the desired priority
         30_000 // the desired interval in milliseconds
     ).apply{
         setWaitForAccurateLocation(true) // whether to wait for an accurate location
         setMaxUpdates(5_000) // the maximum number of location updates
-    }.build()
+    }.build()*/
 
     private val locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
