@@ -42,6 +42,11 @@ To add custom text on image
  ```
  myIntent.putExtra(CameraActivity.EXTRA_CUSTOM_TEXT,"Your text is here")
  ```
+To add location text on image Longitude, Latitude and Accuracy
+
+ ```
+ myIntent.putExtra(CameraActivity.EXTRA_ADD_LOCATION,true)
+ ```
  
  
 
