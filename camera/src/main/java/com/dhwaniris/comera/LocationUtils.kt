@@ -28,8 +28,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.LocationSettingsStatusCodes
-import com.google.android.gms.location.Priority
-import java.util.concurrent.Executors
 
 
 const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -116,7 +114,7 @@ class LocationUtils(private val context: AppCompatActivity,private val listener:
     private val failedListener = FailedListener()
 
     private val locationRequest: LocationRequest = LocationRequest().apply{
-        priority = Priority.PRIORITY_HIGH_ACCURACY// the desired priority
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY// the desired priority
         interval = 30_000// the desired interval in milliseconds
         isWaitForAccurateLocation = true
     }
