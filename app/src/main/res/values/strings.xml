@@ -1,3 +1,8 @@
 <resources>
-  <string name="app_name">Simple Camera</string>
+  <string name="app_name">Camera2 Demo</string>
+  <string name="header_title">Camera2 Migration Demo</string>
+  <string name="settings_section">Camera Settings</string>
+  <string name="demos_section">Camera2 Demos</string>
+  <string name="testing_section">Testing &amp; Performance</string>
+  <string name="ready_message">Ready to test Camera2 implementation...</string>
 </resources>

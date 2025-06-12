@@ -3,4 +3,16 @@
   <color name="colorPrimary">#3F51B5</color>
   <color name="colorPrimaryDark">#303F9F</color>
   <color name="colorAccent">#FF4081</color>
+  
+  <!-- Camera2 Theme Colors -->
+  <color name="camera_primary">#2196F3</color>
+  <color name="camera_primary_dark">#1976D2</color>
+  <color name="camera_accent">#FF5722</color>
+  <color name="background_light">#F5F5F5</color>
+  
+  <!-- Status Colors -->
+  <color name="success_green">#4CAF50</color>
+  <color name="error_red">#F44336</color>
+  <color name="warning_orange">#FF9800</color>
+  <color name="info_blue">#2196F3</color>
 </resources>

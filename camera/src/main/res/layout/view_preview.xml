@@ -22,12 +22,14 @@
             android:id="@+id/ll_location_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#77000000"
+            android:background="#90000000"
             android:baselineAligned="false"
             android:orientation="vertical"
             android:layout_alignParentTop="true"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp">
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
 
             <LinearLayout
 
@@ -35,8 +37,8 @@
                 android:layout_height="wrap_content"
                 android:baselineAligned="false"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
                 android:weightSum="7.5"
                 tools:ignore="UselessParent">
 
@@ -54,7 +56,8 @@
                         android:gravity="center"
                         android:text="Latitude"
                         android:textColor="@android:color/white"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
 
 
@@ -65,8 +68,8 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:text=""
-                        android:textColor="@android:color/white"
-                        android:textSize="11sp" />
+                        android:textColor="#E0E0E0"
+                        android:textSize="9sp" />
 
 
                 </LinearLayout>
@@ -85,7 +88,8 @@
                         android:gravity="center"
                         android:text="Longitude"
                         android:textColor="@android:color/white"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
                         tools:ignore="HardcodedText" />
 
 
@@ -96,8 +100,8 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:text=""
-                        android:textColor="@android:color/white"
-                        android:textSize="11sp" />
+                        android:textColor="#E0E0E0"
+                        android:textSize="9sp" />
 
 
                 </LinearLayout>
@@ -145,7 +149,8 @@
                         android:gravity="center"
                         android:text="Accuracy"
                         android:textColor="@android:color/white"
-                        android:textSize="11sp" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
 
                     <!--                @string/time-->
                     <TextView
@@ -155,8 +160,8 @@
                         android:gravity="center"
                         android:maxLines="1"
                         android:text=""
-                        android:textColor="@android:color/white"
-                        android:textSize="11sp" />
+                        android:textColor="#E0E0E0"
+                        android:textSize="9sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -174,7 +179,8 @@
                     android:gravity="center"
                     android:text="TimeStamp"
                     android:textColor="@android:color/white"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
                     tools:ignore="HardcodedText" />
 
 
@@ -182,12 +188,12 @@
                     android:id="@+id/jaitpur_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="5dp"
+                    android:paddingStart="8dp"
                     android:gravity="start"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:text=""
-                    android:textColor="@android:color/white"
-                    android:textSize="@dimen/_10sdp" />
+                    android:textColor="#E0E0E0"
+                    android:textSize="9sp" />
 
             </LinearLayout>
 

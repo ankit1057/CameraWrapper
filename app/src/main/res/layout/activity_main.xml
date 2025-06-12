@@ -1,32 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    >
+    android:fillViewport="true"
+    tools:context=".MainActivity">
 
-  <Button
-      android:id="@+id/b_start_camera"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Start Camera"
-      app:layout_constraintBottom_toTopOf="@id/iv_thumb"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-  <ImageView
-      android:id="@+id/iv_thumb"
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/b_start_camera"
-      />
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Camera2 Demo Application"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:textColor="@android:color/black" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Settings Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Camera Settings"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <Switch
+                android:id="@+id/switch_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Timestamp"
+                android:layout_marginBottom="8dp" />
+
+            <Switch
+                android:id="@+id/switch_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Location"
+                android:layout_marginBottom="8dp" />
+
+            <EditText
+                android:id="@+id/et_custom_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Custom Text Overlay"
+                android:maxLines="1"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <!-- Camera Demo Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Camera2 Demos"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btn_camera2_basic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🚀 Camera2 Basic"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@android:color/holo_blue_light" />
+
+            <Button
+                android:id="@+id/btn_camera2_features"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🎯 Camera2 Full Features"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@android:color/holo_green_light" />
+
+            <Button
+                android:id="@+id/btn_camera2_rectangle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="📐 Rectangle Shape"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@android:color/holo_orange_light" />
+
+            <Button
+                android:id="@+id/btn_camera2_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="💳 Card Shape"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@android:color/holo_purple" />
+
+            <Button
+                android:id="@+id/btn_camera2_front"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🤳 Front Camera"
+                android:backgroundTint="@android:color/holo_red_light" />
+
+        </LinearLayout>
+
+        <!-- Test & Performance Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@android:color/white"
+            android:elevation="4dp"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Testing and Performance"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <Button
+                android:id="@+id/btn_migration_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="🧪 Migration Test Activity"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_performance_report"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="📊 Performance"
+                    android:layout_marginEnd="8dp"
+                    android:backgroundTint="@android:color/holo_blue_dark" />
+
+                <Button
+                    android:id="@+id/btn_clear_results"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="🗑️ Clear"
+                    android:backgroundTint="@android:color/holo_red_dark" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Progress Bar -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Results Text -->
+        <TextView
+            android:id="@+id/tv_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/black"
+            android:textColor="@android:color/white"
+            android:padding="16dp"
+            android:textSize="12sp"
+            android:fontFamily="monospace"
+            android:text="Ready to test Camera2 implementation..."
+            android:layout_marginBottom="16dp"
+            android:maxLines="10"
+            android:scrollbars="vertical" />
+
+        <!-- Captured Image Preview -->
+        <ImageView
+            android:id="@+id/iv_thumb"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@android:color/darker_gray"
+            android:contentDescription="Captured Image Preview" />
+
+    </LinearLayout>
+
+</ScrollView>
